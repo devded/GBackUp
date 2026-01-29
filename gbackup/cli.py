@@ -25,6 +25,7 @@ console = Console()
 
 
 def print_banner():
+    print("\n\n")
     # Generate banner using pyfiglet banner3 font, then apply gradient
     text = "> GBackUp"
     ascii_art = pyfiglet.figlet_format(text, font="banner3")
