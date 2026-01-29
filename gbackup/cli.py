@@ -1,7 +1,10 @@
 import os
 import typer
+import pyfiglet
 from typing import Optional
+from dotenv import load_dotenv
 from rich.console import Console
+from rich.text import Text
 from rich.progress import (
     Progress,
     SpinnerColumn,
@@ -9,8 +12,6 @@ from rich.progress import (
     BarColumn,
     TimeElapsedColumn,
 )
-import pyfiglet
-from dotenv import load_dotenv
 
 from gbackup.core.backup_service import BackupService
 from gbackup.providers.source.github import GitHubProvider
@@ -24,13 +25,50 @@ console = Console()
 
 
 def print_banner():
-    ascii_art = pyfiglet.figlet_format("GBackUp", font="slant")
-    console.print(f"[bold cyan]{ascii_art}[/bold cyan]", justify="center")
+    # Generate banner using pyfiglet banner3 font, then apply gradient
+    text = "> GBackUp"
+    ascii_art = pyfiglet.figlet_format(text, font="banner3")
+    lines = ascii_art.splitlines()
+
+    if not lines:
+        return
+
+    max_w = max(len(line) for line in lines) if lines else 1
+
+    for line in lines:
+        if not line.strip():
+            continue
+        rich_text = Text()
+        for i, char in enumerate(line):
+            if char == " ":
+                rich_text.append(" ")
+                continue
+
+            # Gradient matching reference: Cyan -> Purple -> Pink
+            rel = i / max_w if max_w > 0 else 0
+            if rel < 0.5:
+                p = rel * 2
+                r = int(0 + (138 - 0) * p)
+                g = int(210 + (43 - 210) * p)
+                b = 255
+            else:
+                p = (rel - 0.5) * 2
+                r = int(138 + (255 - 138) * p)
+                g = int(43 + (102 - 43) * p)
+                b = int(255 + (180 - 255) * p)
+
+            # Replace '#' with '░' for halftone/dithered look like the reference
+            display_char = "░" if char == "#" else char
+            rich_text.append(display_char, style=f"bold rgb({r},{g},{b})")
+
+        console.print(rich_text)
+
+    console.print("")
     console.print(
-        "[bold white on blue]SECURE GITHUB REPOSITORY BACKUP TOOL[/bold white on blue]",
+        "[bold white]SECURE GITHUB REPOSITORY BACKUP TOOL[/bold white]",
         justify="center",
     )
-    console.print("\n")
+    console.print("")
 
 
 @app.command()
