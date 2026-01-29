@@ -1,2 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
 .env
-venv
+.venv
+env/
+venv/
+ENV/
+
+# OS X
+.DS_Store
+
+# Project specific
+temp_backups/
+temp_clone/
+zipped_repos/
+*.zip
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
