@@ -1,14 +1,19 @@
 import requests
 from git import Repo
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from gbackup.core.interfaces import SourceProvider
 
 
 class GitHubProvider(SourceProvider):
-    def __init__(self, token: str, owner_only: bool = True):
+    def __init__(self, token: str, owner_only: bool = True, org: Optional[str] = None):
         self.token = token
         self.owner_only = owner_only
-        self.base_url = "https://api.github.com/user/repos"
+        self.org = org
+        self.base_url = (
+            f"https://api.github.com/orgs/{self.org}/repos"
+            if self.org
+            else "https://api.github.com/user/repos"
+        )
         self.headers = {
             "Authorization": f"token {self.token}",
             "Accept": "application/vnd.github.v3+json",
@@ -24,7 +29,7 @@ class GitHubProvider(SourceProvider):
                 "page": page,
                 "per_page": per_page,
             }
-            if self.owner_only:
+            if self.owner_only and not self.org:
                 params["affiliation"] = "owner"
 
             response = requests.get(self.base_url, headers=self.headers, params=params)
