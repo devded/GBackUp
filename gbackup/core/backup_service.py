@@ -37,7 +37,7 @@ class BackupService:
             for i, repo in enumerate(repos):
                 repo_name = repo["name"]
                 if self.progress_callback:
-                    self.progress_callback(repo_name, i, len(repos))
+                    self.progress_callback(repo_name, i + 1, len(repos))
 
                 current_repo_path = os.path.join(clone_temp_dir, repo_name)
                 repo_zip_path = os.path.join(zipped_repos_dir, f"{repo_name}.zip")
