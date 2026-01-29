@@ -2,6 +2,16 @@
 
 GBackUp is a lightweight, secure, and automated CLI tool designed to backup all your GitHub repositories to an S3-compatible storage provider (like Tigris or AWS S3). It clones your repositories, archives them into a single zip file, and uploads them for safe-keeping.
 
+## Table of Contents
+- [Features](#features)
+- [🛠 Prerequisites](#-prerequisites)
+- [🚀 Getting Started](#-getting-started)
+- [📖 Usage](#-usage)
+- [📊 How it Works](#-how-it-works)
+- [📂 Project Structure](#-project-structure)
+- [🛡 Security](#-security)
+- [📝 License](#-license)
+
 ## Features
 
 - **Automated Cloning**: Fetches all repositories you own (including private ones).
