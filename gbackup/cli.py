@@ -77,6 +77,7 @@ def backup(
     token: str = typer.Option(
         os.getenv("GITHUB_ACCESS_TOKEN"), help="GitHub Personal Access Token"
     ),
+    org: Optional[str] = typer.Option(None, help="Backup repositories from a specific organization"),
     public_only: bool = typer.Option(False, help="Backup only public repositories"),
     no_upload: bool = typer.Option(False, help="Skip upload to S3/Tigris"),
     output_dir: Optional[str] = typer.Option(None, help="Local output directory"),
@@ -87,7 +88,7 @@ def backup(
         console.print("[bold red]❌ Error: No GitHub Token provided.[/bold red]")
         raise typer.Exit(code=1)
 
-    source = GitHubProvider(token, owner_only=not public_only)
+    source = GitHubProvider(token, owner_only=not public_only, org=org)
 
     endpoint_url = os.getenv("TIGRIS_ENDPOINT") or ""
     bucket_name = os.getenv("BUCKET_NAME") or ""
