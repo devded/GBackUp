@@ -1,2 +1,7 @@
 boto3
 GitPython
+requests
+python-dotenv
+rich
+typer
+pyfiglet
