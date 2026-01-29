@@ -73,6 +73,7 @@ python main.py backup [OPTIONS]
 | Flag | Description | Default |
 | :--- | :--- | :--- |
 | `--token` | GitHub Personal Access Token (overrides `.env`) | From `.env` |
+| `--org` | Backup repositories from a specific organization | `None` |
 | `--public-only` | Backup only public repositories | `False` |
 | `--no-upload` | Skip upload to S3 (keeps the backup locally) | `False` |
 | `--output-dir` | Specify a custom local directory for the ZIP file | `temp_backups/` |
@@ -82,6 +83,11 @@ python main.py backup [OPTIONS]
 **Standard Backup:**
 ```bash
 python main.py backup
+```
+
+**Organization Backup:**
+```bash
+python main.py backup --org MyOrganizationName
 ```
 
 **Local-only Backup (Public Repos):**
